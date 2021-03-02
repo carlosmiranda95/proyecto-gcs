@@ -12,7 +12,7 @@ pool:
 container: centos:7
 
 steps:
-- script: su -
+- script: su -i
   displayName: 'A'
 
 - script: dnf -y install java-1.8.0-openjdk-devel
