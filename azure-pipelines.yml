@@ -13,7 +13,7 @@ container:
   image: centos:7
 
 steps:
-- bash: whoami
+- bash: su - root -c "whoami"
   displayName: 'A'
 
 - script: yum install -y nano
