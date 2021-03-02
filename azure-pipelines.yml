@@ -6,16 +6,16 @@ pool:
 
 steps:
 - script: sudo apt-get update -y
-  displayName: 'A'
+  displayName: 'Actualizar Repositorio'
 
 - script: sudo apt-get install default-jre -y
-  displayName: 'B'
+  displayName: 'Instalar Java'
+
+- script: sbt test
+  displayName: 'Correr Pruebas Unitarias'
+
+- script: sbt rpm:packageBin
+  displayName: 'Empaquetar Aplicacion'
 
 - script: ls
-  displayName: 'C'
-
-#- script: sbt test
-#  displayName: 'C'
-
-#- script: sbt rpm:packageBin
-#  displayName: 'C'
+  displayName: 'Empaquetar'
