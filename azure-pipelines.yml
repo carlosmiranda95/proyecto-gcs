@@ -11,7 +11,7 @@ pool:
 
 container:
   image: centos:7
-  options: --user root
+  user: root
 
 steps:
 - script: yum install -y nano
