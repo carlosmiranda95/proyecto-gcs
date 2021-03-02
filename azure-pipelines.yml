@@ -12,6 +12,9 @@ pool:
 container: centos:8
 
 steps:
+- script: ls
+  displayName: 'Cero'
+
 - script: cd proyecto-gcs
   displayName: 'A'
 
