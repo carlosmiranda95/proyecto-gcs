@@ -17,9 +17,6 @@ steps:
 - script: su --help
   displayName: 'A'
 
-- script: yum install nano -y
-  displayName: 'A'
-
 - script: dnf -y install java-1.8.0-openjdk-devel
   displayName: 'B'
 
