@@ -3,7 +3,10 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-  
+
+container:
+  image: centos:8
+
 steps:
 - bash: sudo apt-get update -y
   displayName: 'A'
