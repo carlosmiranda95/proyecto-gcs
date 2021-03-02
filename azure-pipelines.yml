@@ -8,7 +8,13 @@ container:
   image: centos:8
   
 steps:
-- script: dnf -y install java-1.8.0-openjdk-devel
+- script: yum -y update
+  displayName: 'B'
+
+- script: yum install -y java-1.8.0-openjdk-devel
+  displayName: 'B'
+
+- script: yum install -y curl 
   displayName: 'B'
 
 - script: sbt compile
