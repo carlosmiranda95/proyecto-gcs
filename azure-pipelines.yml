@@ -4,24 +4,21 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+container:
+  image: centos:8
+
 steps:
 - script: ls 
   displayName: 'A'
 
-- script: sudo apt-get update -y
-  displayName: 'A'
-
-- script: sudo apt-get install vagrant -y
+- script: dnf -y install java-1.8.0-openjdk-devel
   displayName: 'B'
 
-- script: vagrant up
+- script: sbt compile
   displayName: 'C'
 
-- script: vagrant ssh
+- script: sbt test
   displayName: 'C'
 
-- script: git clone https://github.com/mundacho/proyecto-gcs.git
-  displayName: 'C'
-
-- script: cd proyecto-gcs
+- script: sbt rpm:packageBin
   displayName: 'C'
