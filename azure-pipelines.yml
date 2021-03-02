@@ -11,10 +11,10 @@ pool:
 
 container:
   image: centos:7
-  options: --user root 1234 bash
+  options: --user root
   
 steps:
-- script: whoami
+- script: su --help
   displayName: 'A'
 
 - script: yum install nano -y
