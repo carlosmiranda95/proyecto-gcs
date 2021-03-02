@@ -17,5 +17,5 @@ steps:
 - script: sbt rpm:packageBin
   displayName: 'Empaquetar Aplicacion'
 
-- script: ls
-  displayName: 'Empaquetar'
+- script: cd /home/vsts && ls
+  displayName: 'Mostrar'
