@@ -10,13 +10,13 @@ pool:
   vmImage: ubuntu-latest
 
 container:
-  image: centos:8
+  image: centos:8.2
   
 steps:
 - script: su --help
   displayName: 'A'
 
-- script: su -s dnf -y install java-1.8.0-openjdk-devel
+- script: dnf -y install java-1.8.0-openjdk-devel
   displayName: 'B'
 
 - script: sbt compile
