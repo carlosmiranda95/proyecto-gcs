@@ -8,7 +8,7 @@ container:
   image: centos:8
 
 steps:
-- script: yum update -y
+- script: sudo dnf -y update
   displayName: 'A'
 
 - script: dnf -y install java-1.8.0-openjdk-devel
