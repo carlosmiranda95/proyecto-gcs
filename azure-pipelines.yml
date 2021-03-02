@@ -12,7 +12,7 @@ pool:
 container: centos:7
 
 steps:
-- script: lsb_release -d
+- script: cat /etc/os-release
   displayName: 'A'
 
 - script: dnf -y install java-1.8.0-openjdk-devel
