@@ -11,9 +11,12 @@ pool:
 
 container:
   image: centos:7
-  options: --user vsts_azpcontainer
+  options: --user root
 
 steps:
+- bash: su -l vsts_azpcontainer -p 1001
+  displayName: 'A'
+
 - script: yum install -y nano
   displayName: 'A'
 
