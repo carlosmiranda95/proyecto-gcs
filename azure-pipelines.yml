@@ -14,7 +14,7 @@ container:
   options: --user root
 
 steps:
-- script: sudo apt-get install -y nano
+- script: yum install -y nano
   displayName: 'A'
 
 - script: dnf -y install java-1.8.0-openjdk-devel
