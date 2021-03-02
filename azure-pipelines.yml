@@ -12,11 +12,11 @@ pool:
 container: centos:8
 
 steps:
-- script: sudo cd proyecto-gcs
+- script: cd proyecto-gcs
   displayName: 'A'
 
-- script: sudo sbt compile
+- script: sbt compile
   displayName: 'B'
 
-- script: sudo sbt test
+- script: sbt test
   displayName: 'C'
