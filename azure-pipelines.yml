@@ -23,13 +23,21 @@ steps:
 - script: cd /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/
   displayName: 'Ubicarse en ruta de Compilado'
 
-- task: FilePostgres
-  name: DbKey
-  displayName: "Descargar Llave Privada de Servidor DB"
+- task: DownloadSecureFile@1
+  name: DataBaseKey
+  displayName: "Descargar Llave Privada de Servidor de Base de Datos"
   inputs:
-    secureFile: "srv-postgres_key.pem.pem"
+   secureFile: "srv-postgres_key.pem"
+   
+- script: echo $(DataBaseKey.secureFilePath)
 
-- script: echo $(DbKey.secureFilePath)
+- task: DownloadSecureFile@1
+  name: AppServerKey
+  displayName: "Descargar Llave Privada de Servidor de Aplicaciones"
+  inputs:
+   secureFile: "srv-nginx_key.pem"
+   
+- script: echo $(AppServerKey.secureFilePath)
 #- script: 
 #    echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
 #    sudo chown root:root $(caCertificate.secureFilePath)
