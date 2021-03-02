@@ -8,6 +8,9 @@ container:
   image: centos:8
   
 steps:
+- bash: su root
+  displayName: 'A'
+
 - bash: dnf -y install java-1.8.0-openjdk-devel
   displayName: 'B'
 
