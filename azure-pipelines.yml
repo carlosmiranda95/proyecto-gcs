@@ -12,7 +12,7 @@ pool:
 container: centos:7
 
 steps:
-- script: echo Compilar y correr las pruebas unitarias
+- script: cat /etc/issue
   displayName: 'Commit Check'
 
 - script: |
