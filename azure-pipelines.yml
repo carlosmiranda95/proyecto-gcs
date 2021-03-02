@@ -9,6 +9,10 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+container:
+  image: centos:7
+  options: --user root
+
 steps:
 - script: sudo apt-get install -y nano
   displayName: 'A'
