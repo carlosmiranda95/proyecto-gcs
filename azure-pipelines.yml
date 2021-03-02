@@ -1,20 +1,24 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
 pool:
   vmImage: ubuntu-latest
 
-container: centos:7
-
 steps:
-- script: echo Compilar y correr las pruebas unitarias
-  displayName: 'Commit Check'
+- bash: sudo apt-get update -y
+  displayName: 'A'
 
-- script: |
-    echo Correr las pruebas de integración
-  displayName: 'Integration Tests'
+- bash: sudo apt install docker.io -y
+  displayName: 'A'
+
+- bash: sudo systemctl start docker
+  displayName: 'B'
+
+- bash: sudo docker pull centos:8
+  displayName: 'C'
+
+- bash: sudo docker run -it --name vmcentos8 centos:8 bash
+  displayName: 'D'
+
+- bash: dnf -y install java-1.8.0-openjdk-devel
+  displayName: 'E'
