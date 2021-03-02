@@ -12,7 +12,7 @@ pool:
 container: centos:7
 
 steps:
-- script: cat /etc/issue
+- script: echo 'Hola Mundo'
   displayName: 'Commit Check'
 
 - script: |
