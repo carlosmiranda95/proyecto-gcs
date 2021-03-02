@@ -7,11 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
-
-container:
-  image: centos:7
-  user: root
+  vmImage: centos:7
 
 steps:
 - script: yum install -y nano
