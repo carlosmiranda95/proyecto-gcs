@@ -12,7 +12,7 @@ pool:
 container: centos:8
 
 steps:
-- script: cd /home/vsts/work/1/s
+- script: ls
   displayName: 'Ubicar Directorio Git'
 
 - script: |
