@@ -9,13 +9,10 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-container: ubuntu:20.04
+container: centos:7
 
 steps:
-- script: su -i
-  displayName: 'A'
-
-- script: dnf -y install java-1.8.0-openjdk-devel
+- script: su dnf -y install java-1.8.0-openjdk-devel
   displayName: 'B'
 
 - script: sbt compile
