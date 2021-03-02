@@ -12,7 +12,7 @@ pool:
 container: centos:7
 
 steps:
-- script: su --login 1001
+- bash: dnf -y install nano
   displayName: 'A'
 
 - script: dnf -y install java-1.8.0-openjdk-devel
