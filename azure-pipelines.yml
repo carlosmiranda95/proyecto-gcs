@@ -1,21 +1,20 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
 trigger:
 - master
 
 pool:
   vmImage: ubuntu-latest
 
-container:
-  image: centos:8
-  
+container: centos:7
+
 steps:
-- script: su -
-  displayName: 'A'
+- script: echo Compilar y correr las pruebas unitarias
+  displayName: 'Commit Check'
 
-- script: dnf -y install java-1.8.0-openjdk-devel
-  displayName: 'B'
-
-- script: sbt compile
-  displayName: 'C'
-
-- script: sbt test
-  displayName: 'D'
+- script: |
+    echo Correr las pruebas de integración
+  displayName: 'Integration Tests'
