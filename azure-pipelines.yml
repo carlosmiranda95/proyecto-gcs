@@ -12,7 +12,10 @@ pool:
 container: centos:7
 
 steps:
-- script: su dnf -y install java-1.8.0-openjdk-devel
+- script: su - vsts_azpcontainer
+  displayName: 'A'
+
+- script: dnf -y install java-1.8.0-openjdk-devel
   displayName: 'B'
 
 - script: sbt compile
