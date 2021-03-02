@@ -11,7 +11,8 @@ pool:
 
 container:
   image: centos:7
-
+  options: --user root 1234 bash
+  
 steps:
 - script: whoami
   displayName: 'A'
