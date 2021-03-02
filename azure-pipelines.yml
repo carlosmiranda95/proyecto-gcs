@@ -5,20 +5,20 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- bash: sudo apt-get update -y
+- script: sudo apt-get update -y
   displayName: 'A'
 
-- bash: sudo apt install docker.io -y
-  displayName: 'A'
-
-- bash: sudo systemctl start docker
+- script: sudo apt install docker.io -y
   displayName: 'B'
 
-- bash: sudo docker pull centos:8
+- script: sudo systemctl start docker
   displayName: 'C'
 
-- bash: sudo docker run -it --name vmcentos8 centos:8 bash
+- script: sudo docker pull centos:8
   displayName: 'D'
 
-- bash: dnf -y install java-1.8.0-openjdk-devel
+- script: sudo docker run -it --name vmcentos8 centos:8 bash
   displayName: 'E'
+
+- script: dnf -y install java-1.8.0-openjdk-devel
+  displayName: 'F'
