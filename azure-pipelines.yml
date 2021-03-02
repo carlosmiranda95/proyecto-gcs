@@ -7,10 +7,10 @@ trigger:
 - master
 
 pool:
-  vmImage: centos-latest
+  vmImage: ubuntu-latest
 
 steps:
-- script: yum install -y nano
+- script: sudo apt-get install -y nano
   displayName: 'A'
 
 - script: dnf -y install java-1.8.0-openjdk-devel
