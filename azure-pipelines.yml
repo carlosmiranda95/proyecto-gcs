@@ -13,7 +13,7 @@ container:
   image: centos:7
 
 steps:
-- script: su - root -c "whoami"
+- script: su -c "whoami"
   displayName: 'A'
 
 - script: yum install nano
