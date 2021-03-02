@@ -4,21 +4,18 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+container:
+  image: centos:8
+  
 steps:
-- script: sudo apt-get update -y
+- script: su -
   displayName: 'A'
 
-- script: sudo apt install docker.io -y
+- script: dnf -y install java-1.8.0-openjdk-devel
   displayName: 'B'
 
-- script: sudo systemctl start docker
+- script: sbt compile
   displayName: 'C'
 
-- script: sudo docker pull centos:8
+- script: sbt test
   displayName: 'D'
-
-- script: sudo docker run -it --name vmcentos8 centos:8 bash
-  displayName: 'E'
-
-- script: dnf -y install java-1.8.0-openjdk-devel
-  displayName: 'F'
