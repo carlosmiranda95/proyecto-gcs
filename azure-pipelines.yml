@@ -12,7 +12,7 @@ pool:
 container: centos:7
 
 steps:
-- script: yum install -y java-1.8.0-openjdk
+- script: sudo dnf -y install java-1.8.0-openjdk-devel
   displayName: 'A'
 
 - script: sbt compile
