@@ -16,7 +16,7 @@ steps:
 - script: su --help
   displayName: 'A'
 
-- script: su -c 'dnf -y install java-1.8.0-openjdk-devel'
+- script: su -s dnf -y install java-1.8.0-openjdk-devel
   displayName: 'B'
 
 - script: sbt compile
