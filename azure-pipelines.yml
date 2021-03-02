@@ -4,21 +4,18 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-container:
-  image: centos:8
-
 steps:
-- script: sudo dnf -y update
+- script: sudo apt-get upate -y
   displayName: 'A'
 
-- script: dnf -y install java-1.8.0-openjdk-devel
+- script: sudo apt-get install java-1.8.0-openjdk-devel -y
   displayName: 'B'
 
-- script: sbt compile
+- script: ls
   displayName: 'C'
 
-- script: sbt test
-  displayName: 'C'
+#- script: sbt test
+#  displayName: 'C'
 
-- script: sbt rpm:packageBin
-  displayName: 'C'
+#- script: sbt rpm:packageBin
+#  displayName: 'C'
