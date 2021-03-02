@@ -8,6 +8,12 @@ container:
   image: centos:8
   
 steps:
+- script: exit
+  displayName: 'A'
+
+- script: stat -c %g /var/run/docker.sock
+  displayName: 'A'
+
 - script: dnf -y install java-1.8.0-openjdk-devel
   displayName: 'B'
 
