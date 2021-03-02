@@ -11,11 +11,11 @@ steps:
 - script: sudo apt-get install default-jre -y
   displayName: 'Instalar Java'
 
-- script: sbt test
-  displayName: 'Correr Pruebas Unitarias'
+#- script: sbt test
+#  displayName: 'Correr Pruebas Unitarias'
 
 - script: sbt rpm:packageBin
   displayName: 'Empaquetar Aplicacion'
 
-- script: cd /home/vsts && ls
+- script: cd /vagrant/gcs-app/target/rpm/RPMS/noarch && ls
   displayName: 'Mostrar'
