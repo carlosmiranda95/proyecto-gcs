@@ -8,7 +8,7 @@ container:
   image: centos:8
   
 steps:
-- script: bash -c "dnf -y install java-1.8.0-openjdk-devel"
+- script: bash -c "yum -y install java-1.8.0-openjdk-devel"
   displayName: 'B'
 
 - script: stat -c 'sbt compile' /var/run/docker.sock
