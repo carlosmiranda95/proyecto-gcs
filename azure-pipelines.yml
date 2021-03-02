@@ -7,11 +7,10 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-16.04
+  vmImage: ubuntu-latest
 
 container:
-  image: centos:7
-  options: --user root
+  image: centos:8
   
 steps:
 - script: su --help
