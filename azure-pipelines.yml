@@ -12,9 +12,11 @@ pool:
 container: centos:8
 
 steps:
-- script: ls
-  displayName: 'Ubicar Directorio Git'
+- script: sudo cd proyecto-gcs
+  displayName: 'A'
 
-- script: |
-    echo Correr las pruebas de integración
-  displayName: 'Integration Tests'
+- script: sudo sbt compile
+  displayName: 'B'
+
+- script: sudo sbt test
+  displayName: 'C'
