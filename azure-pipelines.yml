@@ -17,5 +17,21 @@ steps:
 - script: sbt rpm:packageBin
   displayName: 'Empaquetar Aplicacion'
 
-- script: cd gcs-app/target/rpm/RPMS/noarch && ls
-  displayName: 'Mostrar'
+- script: sudo apt-get install scp -y
+  displayName: 'Instalar Herramienta SCP'
+
+- script: cd /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/
+  displayName: 'Ubicarse en ruta de Compilado'
+
+- task: FilePostgres
+  name: DbKey
+  displayName: "Descargar Llave Privada de Servidor DB"
+  inputs:
+    secureFile: "srv-postgres_key.pem.pem"
+
+- script: echo $(DbKey.secureFilePath)
+#- script: 
+#    echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
+#    sudo chown root:root $(caCertificate.secureFilePath)
+#    sudo chmod a+r $(caCertificate.secureFilePath)
+#    sudo ln -s -t /etc/ssl/certs/ $(caCertificate.secureFilePath)
