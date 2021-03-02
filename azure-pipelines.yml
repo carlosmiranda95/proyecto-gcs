@@ -9,10 +9,10 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-container: centos:8
+container: centos:7
 
 steps:
-- script: su --login
+- script: su -
   displayName: 'A'
 
 - script: dnf -y install java-1.8.0-openjdk-devel
