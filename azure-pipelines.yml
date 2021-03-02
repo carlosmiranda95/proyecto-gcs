@@ -14,11 +14,11 @@ steps:
 - script: stat -c 'dnf -y install java-1.8.0-openjdk-devel' /var/run/docker.sock
   displayName: 'A'
 
-- script: dnf -y install java-1.8.0-openjdk-devel
+- script: stat -c 'java --version' /var/run/docker.sock
   displayName: 'B'
 
-- script: sbt compile
+- script: stat -c 'sbt compile' /var/run/docker.sock
   displayName: 'C'
 
-- script: sbt test
+- script: stat -c 'sbt test' /var/run/docker.sock
   displayName: 'D'
