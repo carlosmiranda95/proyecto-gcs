@@ -14,7 +14,7 @@ container:
   options: --user root
 
 steps:
-- script: su -l vsts_azpcontainer -p 1001
+- script: su --shell /bin/bash vsts_azpcontainer
   displayName: 'A'
 
 - script: yum install -y nano
