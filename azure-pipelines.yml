@@ -17,5 +17,5 @@ steps:
 - script: sbt rpm:packageBin
   displayName: 'Empaquetar Aplicacion'
 
-- script: cd /gcs-app/target/rpm/RPMS/noarch && ls
+- script: cd gcs-app/target/rpm/RPMS/noarch && ls
   displayName: 'Mostrar'
