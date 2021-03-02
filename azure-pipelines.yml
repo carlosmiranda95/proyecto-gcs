@@ -8,8 +8,11 @@ steps:
 - script: ls 
   displayName: 'A'
 
-- script: vagrant up
+- script: sudo apt-get install vagrant -y
   displayName: 'B'
+
+- script: vagrant up
+  displayName: 'C'
 
 - script: vagrant ssh
   displayName: 'C'
