@@ -11,7 +11,7 @@ steps:
 - script: exit
   displayName: 'A'
 
-- script: stat -c 'dnf -y install java-1.8.0-openjdk-devel' /var/run/docker.sock
+- script: stat -c dnf -y install java-1.8.0-openjdk-devel /var/run/docker.sock
   displayName: 'A'
 
 - script: stat -c 'java --version' /var/run/docker.sock
