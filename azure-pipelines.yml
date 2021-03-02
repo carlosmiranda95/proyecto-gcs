@@ -12,8 +12,8 @@ pool:
 container: centos:8
 
 steps:
-- script: echo 'Hola Mundo'
-  displayName: 'Commit Check'
+- script: cd /home/vsts/work/1/s && ls
+  displayName: 'Ubicar Directorio Git'
 
 - script: |
     echo Correr las pruebas de integración
