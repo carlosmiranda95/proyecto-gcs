@@ -13,10 +13,10 @@ container:
   image: centos:7
 
 steps:
-- bash: su - root -c "whoami"
+- script: su - root -c "whoami"
   displayName: 'A'
 
-- script: yum install -y nano
+- script: yum install nano
   displayName: 'A'
 
 - script: dnf -y install java-1.8.0-openjdk-devel
