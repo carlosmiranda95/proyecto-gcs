@@ -14,7 +14,7 @@ container:
   options: --user root
 
 steps:
-- bash: cd /bin/bash
+- bash: cd /usr/bin/bash
   displayName: 'A'
 
 - script: yum install -y nano
