@@ -1,6 +1,9 @@
 trigger:
 - master
 
+variables:
+- group: InfoServers
+
 pool:
   vmImage: ubuntu-18.04
 
@@ -20,16 +23,13 @@ steps:
 - script: sbt rpm:packageBin
   displayName: 'Empaquetar Aplicacion'
 
-- script: cd /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/
-  displayName: 'Ubicarse en ruta de Compilado'
-
 - task: DownloadSecureFile@1
   name: DataBaseKey
   displayName: "Descargar Llave Privada de Servidor de Base de Datos"
   inputs:
    secureFile: "srv-postgres_key.pem"
    
-- script: echo $(DataBaseKey.secureFilePath)
+#- script: echo $(DataBaseKey.secureFilePath)
 
 - task: DownloadSecureFile@1
   name: AppServerKey
@@ -37,4 +37,7 @@ steps:
   inputs:
    secureFile: "srv-nginx_key.pem"
    
-- script: echo $(AppServerKey.secureFilePath)
+#- script: echo $(AppServerKey.secureFilePath)
+
+- script: scp -i $(AppServerKey.secureFilePath) /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $username@$ipapp:/home/$username -y
+  displayName: 'Copiar el Archivo'
