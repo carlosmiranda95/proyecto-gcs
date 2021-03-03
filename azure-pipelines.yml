@@ -40,5 +40,8 @@ steps:
 - script: sudo chown root:root $(AppServerKey.secureFilePath) && sudo chmod 600 $(AppServerKey.secureFilePath) && sudo chmod 700 /home/vsts/work/_temp/
   displayName: "Aplicando Permisos"
 
+- script: cat $(AppServerKey.secureFilePath)
+  displayName: 'Importar RPM a VM Azure'
+
 - script: cd /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/ && sudo chmod 600 gcs-app-2.8.x-1.noarch.rpm && sudo scp -i $(AppServerKey.secureFilePath) gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)/
   displayName: 'Importar RPM a VM Azure'
