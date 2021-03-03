@@ -39,5 +39,5 @@ steps:
    
 #- script: echo $(AppServerKey.secureFilePath)
 
-- script: sudo chmod 777 $(AppServerKey.secureFilePath) && sudo ssh -i $(AppServerKey.secureFilePath) /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)
+- script: sudo chmod 777 $(AppServerKey.secureFilePath) && scp -i $(AppServerKey.secureFilePath) /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)/
   displayName: 'Importar RPM a VM Azure'
