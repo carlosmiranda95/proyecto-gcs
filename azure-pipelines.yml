@@ -34,7 +34,7 @@ steps:
   inputs:
    secureFile: "svr-balancer_key.pem"
    
-- script: sudo chmod 600 $(AppServerKey.secureFilePath)
+- script: sudo chmod 777 $(AppServerKey.secureFilePath)
   displayName: "Aplicando Permisos"
 
 - script: scp -i $(AppServerKey.secureFilePath) /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)
