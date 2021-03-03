@@ -35,13 +35,10 @@ steps:
   name: AppServerKey
   displayName: "Descargar Llave Privada de Servidor de Aplicaciones"
   inputs:
-   secureFile: "srv-nginx_key.pem"
+   secureFile: "svr-balancer_key.pem"
    
-- script: sudo chown root:root $(AppServerKey.secureFilePath) && sudo chmod 600 $(AppServerKey.secureFilePath) && sudo chmod 700 /home/vsts/work/_temp/
+- script: sudo cp $(AppServerKey.secureFilePath) ~/.ssh/ && sudo chmod 600 ~/.ssh/$(AppServerKey)
   displayName: "Aplicando Permisos"
 
-- script: sudo cat $(AppServerKey.secureFilePath)
-  displayName: 'Importar RPM a VM Azure'
-
-- script: cd /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/ && sudo chmod 600 gcs-app-2.8.x-1.noarch.rpm && sudo scp -i $(AppServerKey.secureFilePath) gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)/
+- script: sudo scp -i $(AppServerKey.secureFilePath) /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)/
   displayName: 'Importar RPM a VM Azure'
