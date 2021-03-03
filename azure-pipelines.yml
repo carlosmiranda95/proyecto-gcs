@@ -28,17 +28,14 @@ steps:
   displayName: "Descargar Llave Privada de Servidor de Base de Datos"
   inputs:
    secureFile: "srv-postgres_key.pem"
-   
-#- script: echo $(DataBaseKey.secureFilePath)
-
 - task: DownloadSecureFile@1
   name: AppServerKey
   displayName: "Descargar Llave Privada de Servidor de Aplicaciones"
   inputs:
    secureFile: "svr-balancer_key.pem"
    
-- script: sudo cp $(AppServerKey.secureFilePath) /home/vsts/$(AppServerKey) && sudo chmod 600 /home/vsts/$(AppServerKey)
+- script: sudo cp $(AppServerKey.secureFilePath) /home/vsts/$(AppServerKey) && sudo chmod 777 /home/vsts/$(AppServerKey)
   displayName: "Aplicando Permisos"
 
-- script: sudo scp -i /home/vsts/$(AppServerKey) /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)/
+- script: scp -i /home/vsts/$(AppServerKey) /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)
   displayName: 'Importar RPM a VM Azure'
