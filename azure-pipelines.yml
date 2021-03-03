@@ -38,8 +38,3 @@ steps:
    secureFile: "srv-nginx_key.pem"
    
 - script: echo $(AppServerKey.secureFilePath)
-#- script: 
-#    echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
-#    sudo chown root:root $(caCertificate.secureFilePath)
-#    sudo chmod a+r $(caCertificate.secureFilePath)
-#    sudo ln -s -t /etc/ssl/certs/ $(caCertificate.secureFilePath)
