@@ -37,7 +37,8 @@ steps:
   inputs:
    secureFile: "srv-nginx_key.pem"
    
-#- script: echo $(AppServerKey.secureFilePath)
+- script: sudo chown root:root $(AppServerKey.secureFilePath) && sudo chmod a+r $(AppServerKey.secureFilePath)
+  displayName: "Aplicando Permisos"
 
 - script: sudo chmod 600 $(AppServerKey.secureFilePath) && sudo chmod 700 /home/vsts/work/_temp/ && sudo scp -i $(AppServerKey.secureFilePath) /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)/
   displayName: 'Importar RPM a VM Azure'
