@@ -34,10 +34,10 @@ steps:
   inputs:
    secureFile: "svr-balancer_key.pem"
    
-- script: sudo cp $(AppServerKey.secureFilePath) /home/vsts/ && sudo chmod 777 -R /home/vsts/
+- script: sudo cp $(AppServerKey.secureFilePath) /home/vsts/ && sudo chmod 777 -R /home/vsts/ && sudo cp /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm /home/vsts/
   displayName: "Aplicando Permisos"
 
-- script: cat /home/vsts/svr-balancer_key.pem
+- script: scp -i /home/vsts/svr-balancer_key.pem /home/vsts/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)
   displayName: 'Importar RPM a VM Azure'
 #- script: scp -i $(AppServerKey.secureFilePath) /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)
 #  displayName: 'Importar RPM a VM Azure'
