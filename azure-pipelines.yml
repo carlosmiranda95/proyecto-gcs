@@ -42,3 +42,12 @@ steps:
 
 - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo rpm -i gcs-app-2.8.x-1.noarch.rpm
   displayName: 'Instalar RPM'
+
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo chown -R gcs-app /usr/share/gcs-app/
+  displayName: 'Conceder Permisos al usuario'
+
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo chgrp -R gcs-app /usr/share/gcs-app/
+  displayName: 'Conceder Permisos al Grupo' 
+
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo systemctl start gcs-app
+  displayName: 'Lanzar la Aplicacion' 
