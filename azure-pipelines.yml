@@ -46,6 +46,9 @@ steps:
 - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo rpm -e gcs-app-2.8.x-1.noarch
   displayName: 'Desinstalando Aplicacion'
 
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo systemctl daemon-reload
+  displayName: 'Reiniciado Demonio'
+
 - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo rpm -i gcs-app-2.8.x-1.noarch.rpm
   displayName: 'Instalar Aplicacion'
 
