@@ -61,6 +61,9 @@ steps:
 - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo mv /etc/gcs-app/application.conf /etc/gcs-app/application.conf.bk
   displayName: 'Preparar Archivo de Configuracion' 
 
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo rm /etc/gcs-app/application.conf.rpmsave
+  displayName: 'Preparar Archivo de Configuracion' 
+
 - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sed -e 's/{ipallowed}/$(ipallowed)/' -e 's/{hostdb}/$(hostdb)/' -e 's/{userdb}/$(userdb)/' -e 's/{passdb}/$(passdb)/' /etc/gcs-app/application.conf.bk > /etc/gcs-app/application.conf
   displayName: 'Modificar Archivo de Configuracion' 
 
