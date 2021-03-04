@@ -40,5 +40,5 @@ steps:
 - script: sudo scp -v -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)
   displayName: 'Importar RPM a VM Azure'
 
-- script: ssh -v -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo rpm -i gcs-app-2.8.x-1.noarch.rpm
+- script: ssh -v -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) && sudo rpm -i gcs-app-2.8.x-1.noarch.rpm
   displayName: 'Instalar RPM'
