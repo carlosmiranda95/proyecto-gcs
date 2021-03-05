@@ -76,5 +76,5 @@ steps:
 - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo chown gcs-app:gcs-app /var/log/gcs-app/gcs-app.log"
   displayName: 'Conceder Permisos a Logs' 
 
-- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo systemctl restart gcs-app
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo systemctl restart gcs-app.service
   displayName: 'Reiniciar Aplicacion'
