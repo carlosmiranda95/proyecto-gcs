@@ -17,8 +17,8 @@ steps:
 - script: sudo apt-get install openssh-server -y
   displayName: 'Instalar openssh'
 
-#- script: sbt test
-#  displayName: 'Correr Pruebas Unitarias'
+- script: sbt test
+  displayName: 'Correr Pruebas Unitarias'
 
 - script: sbt rpm:packageBin
   displayName: 'Empaquetar Aplicacion'
