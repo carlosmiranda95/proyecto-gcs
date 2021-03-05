@@ -52,25 +52,25 @@ steps:
 - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo rpm -i gcs-app-2.8.x-1.noarch.rpm
   displayName: 'Instalar Aplicacion'
 
-- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo chown -R gcs-app /usr/share/gcs-app/
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo chown -R gcs-app /usr/share/gcs-app/"
   displayName: 'Conceder Permisos al usuario'
 
-- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo chgrp -R gcs-app /usr/share/gcs-app/
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo chgrp -R gcs-app /usr/share/gcs-app/"
   displayName: 'Conceder Permisos al Grupo' 
 
-- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo chown azureuser:azureuser /etc/gcs-app/application.conf
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo chown azureuser:azureuser /etc/gcs-app/application.conf"
   displayName: 'Permisos al Archivo de Configuracion' 
 
-- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo mv /etc/gcs-app/application.conf /etc/gcs-app/application.conf.bk
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo mv /etc/gcs-app/application.conf /etc/gcs-app/application.conf.bk"
   displayName: 'Preparar Archivo de Configuracion' 
 
-- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo sed -e 's/{ipallowed}/$(ipallowed)/' -e 's/{hostdb}/$(hostdb)/' -e 's/{userdb}/$(userdb)/' -e 's/{passdb}/$(passdb)/' /etc/gcs-app/application.conf.bk > /home/azureuser/application.conf
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo sed -e 's/{ipallowed}/$(ipallowed)/' -e 's/{hostdb}/$(hostdb)/' -e 's/{userdb}/$(userdb)/' -e 's/{passdb}/$(passdb)/' /etc/gcs-app/application.conf.bk > /home/azureuser/application.conf"
   displayName: 'Modificar Archivo de Configuracion' 
 
-- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo mv /home/azureuser/application.conf /etc/gcs-app/
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo mv /home/azureuser/application.conf /etc/gcs-app/""
   displayName: 'Modificar Archivo de Configuracion' 
 
-- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo chown gcs-app:gcs-app /etc/gcs-app/application.conf
+- script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo chown gcs-app:gcs-app /etc/gcs-app/application.conf"
   displayName: 'Modificar Archivo de Configuracion' 
 
 - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo systemctl restart gcs-app
