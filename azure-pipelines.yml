@@ -39,8 +39,14 @@ jobs:
   - script: |
             sudo docker run -d -e POSTGRES_PASSWORD=gcs -e POSTGRES_USER=gcs -e POSTGRES_DB=gcs -p 127.0.0.1:5432:5432  postgres:9.5
             export PGPASSWORD='gcs'
-            psql -h "127.0.0.1" -U "gcs" -c '\l'
     displayName: 'Ejecutar Contenedor DataBase'
+
+  - script: until psql -h "127.0.0.1" -U "gcs" -c '\l'; do
+              >&2 echo "Conectando a Base de Datos"
+              sleep 1
+            done
+            >&2 echo "Conexion Lista"
+    displayName: 'Establecer Conexion a Base de Datos'
 
   - script: sbt "project gcsAppIT" test
     displayName: 'Ejecutar Pruebas de Integracion'
