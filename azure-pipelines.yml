@@ -24,7 +24,9 @@ jobs:
 
   - script: sbt test
     displayName: 'Correr Pruebas Unitarias'
-    
+
+- job: "Fase_de_Verificacion_de_Pruebas_de_Integracion"
+  steps:
   - script: |
             sudo apt-get update -y
             sudo apt -y install sbt debianutils rpm postgresql-client-common
@@ -35,10 +37,8 @@ jobs:
             sudo apt-get install docker-ce
             sudo systemctl start docker
     displayName: 'Instalar Docker'
-    
-  - script: |
-            sudo docker run -d -e POSTGRES_PASSWORD=gcs -e POSTGRES_USER=gcs -e POSTGRES_DB=gcs -p 127.0.0.1:5432:5432  postgres:9.5
-            
+
+  - script: sudo docker run -d -e POSTGRES_PASSWORD=gcs -e POSTGRES_USER=gcs -e POSTGRES_DB=gcs -p 127.0.0.1:5432:5432  postgres:9.5 
     displayName: 'Ejecutar Contenedor DataBase'
 
   - script: |
@@ -49,6 +49,69 @@ jobs:
             done
             >&2 echo "Conexion Lista"
     displayName: 'Establecer Conexion a Base de Datos'
+#  - script: sbt "project gcsAppIT" test
+#    displayName: 'Ejecutar Pruebas de Integracion'
 
-  - script: sbt "project gcsAppIT" test
-    displayName: 'Ejecutar Pruebas de Integracion'
+- job: "Fase_de_Despliegue_a_servidor_de_pruebas"
+  steps:
+    - script: sbt rpm:packageBin
+      displayName: 'Empaquetar Aplicacion'
+    - task: DownloadSecureFile@1
+      name: DataBaseKey
+      displayName: "Descargar Llave Privada de Servidor de Base de Datos"
+      inputs:
+        secureFile: "srv-postgres_key.pem"
+    - task: DownloadSecureFile@1
+      name: AppServerKey
+      displayName: "Descargar Llave Privada de Servidor de Aplicaciones"
+      inputs:
+        secureFile: "svr-balancer_key.pem"
+      
+    - script: sudo cp $(AppServerKey.secureFilePath) /home/vsts/ && sudo chmod 600 /home/vsts/svr-balancer_key.pem
+      displayName: "Aplicando Permisos"
+
+    - script: sudo scp -v -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem /home/vsts/work/1/s/gcs-app/target/rpm/RPMS/noarch/gcs-app-2.8.x-1.noarch.rpm $(username)@$(ipapp):/home/$(username)
+      displayName: 'Importar RPM a VM Azure'
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo systemctl stop gcs-app.service
+      displayName: 'Deteniendo el Servicio'
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo rpm -e gcs-app-2.8.x-1.noarch
+      displayName: 'Desinstalando Aplicacion'
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo systemctl daemon-reload
+      displayName: 'Reiniciado Demonio'
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo rpm -i gcs-app-2.8.x-1.noarch.rpm
+      displayName: 'Instalar Aplicacion'
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo chown -R gcs-app /usr/share/gcs-app/"
+      displayName: 'Conceder Permisos al usuario'
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo chgrp -R gcs-app /usr/share/gcs-app/"
+      displayName: 'Conceder Permisos al Grupo' 
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo chown gcs-app:gcs-app /etc/gcs-app/application.conf"
+      displayName: 'Permisos al Archivo de Configuracion' 
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo mv /etc/gcs-app/application.conf /etc/gcs-app/application.conf.bk"
+      displayName: 'Preparar Archivo de Configuracion' 
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo sed -e 's/{ipallowed}/$(ipallowed)/' -e 's/{hostdb}/$(hostdb)/' -e 's/{userdb}/$(userdb)/' -e 's/{passdb}/$(passdb)/' /etc/gcs-app/application.conf.bk > /home/azureuser/application.conf"
+      displayName: 'Modificar Archivo de Configuracion' 
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo mv /home/azureuser/application.conf /etc/gcs-app/"
+      displayName: 'Modificar Archivo de Configuracion' 
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo chown gcs-app:gcs-app /etc/gcs-app/application.conf"
+      displayName: 'Modificar Archivo de Configuracion' 
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) "sudo chown gcs-app:gcs-app /var/log/gcs-app/gcs-app.log"
+      displayName: 'Conceder Permisos a Logs' 
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo rm /usr/share/gcs-app/RUNNING_PID
+      displayName: 'Reiniciar Aplicacion'
+
+    - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo systemctl restart gcs-app.service
+      displayName: 'Reiniciar Aplicacion'
+
