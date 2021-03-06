@@ -27,7 +27,7 @@ jobs:
     
   - script: |
             sudo apt-get update -y
-            sudo apt-get postgresql-client-common -y
+            sudo apt -y install sbt debianutils rpm postgresql-client-common
             sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
             curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable" 
@@ -38,10 +38,12 @@ jobs:
     
   - script: |
             sudo docker run -d -e POSTGRES_PASSWORD=gcs -e POSTGRES_USER=gcs -e POSTGRES_DB=gcs -p 127.0.0.1:5432:5432  postgres:9.5
-            export PGPASSWORD='gcs'
+            
     displayName: 'Ejecutar Contenedor DataBase'
 
-  - script: until psql -h "127.0.0.1" -U "gcs" -c '\l'; do
+  - script: |
+            export PGPASSWORD='gcs'
+            until psql -h "127.0.0.1" -U "gcs" -c '\l'; do
               >&2 echo "Conectando a Base de Datos"
               sleep 1
             done
