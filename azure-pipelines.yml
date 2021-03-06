@@ -7,27 +7,31 @@ pool:
 variables:
 - group: InfoServers
 
-jobs:
-- job: "Commit_Check_Phase" 
-  steps:
-  - script: sudo apt-get update -y
-    displayName: 'Actualizar Repositorio'
+stages:
+- stage: "Commit_Check_Phase"
+  jobs:
+  - job:  
+    steps:
+    - script: sudo apt-get update -y
+      displayName: 'Actualizar Repositorio'
 
-  - script: sudo apt-get install default-jre -y
-    displayName: 'Instalar Java'
+    - script: sudo apt-get install default-jre -y
+      displayName: 'Instalar Java'
 
-  - script: sudo apt-get install openssh-server -y
-    displayName: 'Instalar openssh'
+    - script: sudo apt-get install openssh-server -y
+      displayName: 'Instalar openssh'
 
-  - script: sbt test
-    displayName: 'Compilar Aplicacion'
+    - script: sbt test
+      displayName: 'Compilar Aplicacion'
 
-  - script: sbt test
-    displayName: 'Correr Pruebas Unitarias'
+    - script: sbt test
+      displayName: 'Correr Pruebas Unitarias'
 
-- job: "Fase_de_Verificacion_de_Pruebas_de_Integracion"
-  steps:
-  - script: |
+- stage: "Fase_de_Verificacion_de_Pruebas_de_Integracion"
+  jobs:
+  - job: 
+    steps:
+    - script: |
             sudo apt-get update -y
             sudo apt -y install sbt debianutils rpm postgresql-client-common
             sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
@@ -36,24 +40,25 @@ jobs:
             sudo apt-get update -y
             sudo apt-get install docker-ce
             sudo systemctl start docker
-    displayName: 'Instalar Docker'
+      displayName: 'Instalar Docker'
 
-  - script: sudo docker run -d -e POSTGRES_PASSWORD=gcs -e POSTGRES_USER=gcs -e POSTGRES_DB=gcs -p 127.0.0.1:5432:5432  postgres:9.5 
-    displayName: 'Ejecutar Contenedor DataBase'
+    - script: sudo docker run -d -e POSTGRES_PASSWORD=gcs -e POSTGRES_USER=gcs -e POSTGRES_DB=gcs -p 127.0.0.1:5432:5432  postgres:9.5 
+      displayName: 'Ejecutar Contenedor DataBase'
 
-  - script: |
-            export PGPASSWORD='gcs'
-            until psql -h "127.0.0.1" -U "gcs" -c '\l'; do
-              >&2 echo "Conectando a Base de Datos"
-              sleep 1
-            done
-            >&2 echo "Conexion Lista"
-    displayName: 'Establecer Conexion a Base de Datos'
+    - script: |
+              export PGPASSWORD='gcs'
+              until psql -h "127.0.0.1" -U "gcs" -c '\l'; do
+                >&2 echo "Conectando a Base de Datos"
+                sleep 1
+              done
+              >&2 echo "Conexion Lista"
+      displayName: 'Establecer Conexion a Base de Datos'
 #  - script: sbt "project gcsAppIT" test
 #    displayName: 'Ejecutar Pruebas de Integracion'
-
-- job: "Fase_de_Despliegue_a_servidor_de_pruebas"
-  steps:
+- stage: "Fase_de_Despliegue_a_servidor_de_pruebas"
+  jobs:
+  - job: 
+    steps:
     - script: sbt rpm:packageBin
       displayName: 'Empaquetar Aplicacion'
     - task: DownloadSecureFile@1
@@ -114,4 +119,3 @@ jobs:
 
     - script: sudo ssh -o StrictHostKeyChecking=no -i /home/vsts/svr-balancer_key.pem $(username)@$(ipapp) sudo systemctl restart gcs-app.service
       displayName: 'Reiniciar Aplicacion'
-
