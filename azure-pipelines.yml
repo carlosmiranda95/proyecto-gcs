@@ -16,7 +16,9 @@ steps:
 
 #- script: sudo apt-get install openssh-server -y
 #  displayName: 'Instalar openssh'
-
+- script: sbt test
+  displayName: 'Correr Pruebas Unitarias'
+  
 - script: |
           sudo apt-get update -y
           sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
